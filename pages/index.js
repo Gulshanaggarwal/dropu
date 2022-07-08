@@ -2,8 +2,6 @@
 
 export default function Home() {
   return (
-    <div>
-      Welcome Home
-    </div>
+    <div>Home Page conetent</div>
   )
 }
