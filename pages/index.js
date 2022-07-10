@@ -1,8 +1,15 @@
 import Image from "next/image"
 import logo from "../public/logo.svg"
-import { HomePageContentContainer, LeftContainer, ProductLine, QuestionLine, GetStartedButton, RightContainer, Logo } from "../styles/HomePageContentStyle"
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { HomePageContentContainer, LeftContainer, ProductLine, QuestionLine, GetStartedButton, Heading, Wrapper, ServiceInstance, Description, RightContainer, Logo } from "../styles/HomePageContentStyle"
+import { useState } from "react";
+import LoginModal from "../components/LoginModal/loginModal";
 
 export default function Home() {
+
+  const [loginModal, setLoginModal] = useState(false);
+
+
   return (
     <HomePageContentContainer>
       <LeftContainer>
@@ -11,16 +18,46 @@ export default function Home() {
           than drive
         </ProductLine>
         <QuestionLine>
-          Do you really want to give your personal files in the hand of third<br />
-          partieslike WeTransfer?
+          Do you fee worry while giving access file link to the <br />
+          third parties?<br />
+          That's the reason we exists 😎
         </QuestionLine>
-        <GetStartedButton>
-          Get Started
-        </GetStartedButton>
+        <div>
+          <Heading>Features -</Heading>
+          <Wrapper>
+            <ServiceInstance>
+              <CheckCircleIcon sx={{ color: 'primary.main' }} />
+              <Heading>Protected -</Heading>
+              <Description>
+                Time limit &#38; password protected file links
+              </Description>
+            </ServiceInstance>
+            <ServiceInstance>
+              <CheckCircleIcon sx={{ color: 'primary.main' }} />
+              <Heading>Access multiple -</Heading>
+              <Description>
+                Multiple files access via single link, preview &#38; download
+              </Description>
+            </ServiceInstance>
+            <ServiceInstance>
+              <CheckCircleIcon sx={{ color: 'primary.main' }} />
+              <Heading>SignIn -</Heading>
+              <Description>
+                No need to register, easy sign in with Google
+              </Description>
+            </ServiceInstance>
+          </Wrapper>
+        </div>
+        <div>
+          <GetStartedButton onClick={() => setLoginModal(true)}>
+            Get Started
+          </GetStartedButton>
+          <LoginModal open={loginModal} setLoginModal={setLoginModal} />
+        </div>
       </LeftContainer>
       <RightContainer>
         <Logo>
-          <Image src={logo} width={100} height={100} />
+          <Image src={logo} width={100} height={100} alt="dropu_logo" />
         </Logo>
       </RightContainer>
     </HomePageContentContainer>

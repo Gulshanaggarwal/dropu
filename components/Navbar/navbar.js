@@ -25,7 +25,7 @@ export default function Navbar({ mode, setMode }) {
     return (
         <Header>
             <Logo>
-                <Image src={logo} width={30} height={30} />
+                <Image src={logo} width={30} height={30} alt="dropu_logo" />
                 <LogoText>Dropu</LogoText>
             </Logo>
             <Wrapper>
