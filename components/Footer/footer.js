@@ -7,7 +7,7 @@ export default function Footer() {
     return (
         <FooterContainer>
             <Text>
-                Made with 🖤 by
+                Made with 🖤 by &nbsp;
                 <Link href="https://gulshanaggarwal.github.io/portfolio/">
                     <a>Gulshan</a>
                 </Link>

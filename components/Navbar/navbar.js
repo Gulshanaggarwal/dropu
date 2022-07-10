@@ -1,5 +1,7 @@
-import { Header, Logo, Wrapper, RoundedBox } from './styles';
+import { Header, Logo, LogoText, Wrapper, RoundedBox } from './styles';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import logo from "../../public/logo.svg"
+import Image from 'next/image';
 
 
 
@@ -22,7 +24,10 @@ export default function Navbar({ mode, setMode }) {
 
     return (
         <Header>
-            <Logo>Dropu</Logo>
+            <Logo>
+                <Image src={logo} width={30} height={30} />
+                <LogoText>Dropu</LogoText>
+            </Logo>
             <Wrapper>
                 <RoundedBox>
                     <LightModeIcon onClick={handleToggle} sx={{ cursor: 'pointer', color: 'text.primary' }} />
