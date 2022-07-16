@@ -4,11 +4,23 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { HomePageContentContainer, LeftContainer, ProductLine, QuestionLine, GetStartedButton, Heading, Wrapper, ServiceInstance, Description, RightContainer, Logo } from "../styles/HomePageContentStyle"
 import { useState } from "react";
 import LoginModal from "../components/LoginModal/loginModal";
+import Spinner from "../utils/Spinner/spinner";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export default function Home() {
 
   const [loginModal, setLoginModal] = useState(false);
 
+  const { status } = useSession();
+  const router = useRouter();
+
+  if (status === 'loading') {
+    return <Spinner />
+  }
+  if (status === 'authenticated') {
+    router.push('/upload');  // redirect to upload route
+  }
 
   return (
     <HomePageContentContainer>

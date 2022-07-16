@@ -1,10 +1,19 @@
 import { DropzoneContainer, FileInput, LabelUpload, Text, UploadButton, InvisibleElement } from "./styles";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
+import { storage } from "../../lib/firebase"
+import { nanoid } from "nanoid";
+import { LocalStateContext } from "../../contexts/LocalStateContext";
+
+const SUPPORTED_TYPES = ['image/jpg', 'image/png', 'image/jpeg', 'image/gif', 'application/pdf'];
+const MAX_FILE_SIZE = 10485760   // 10 Megabytes;
 
 export default function Dropzone() {
 
     const [isDrag, setDrag] = useState(false);
+    const [files, setFiles] = useState(null);
     const inputRef = useRef();
+    const [state, dispatch] = useContext(LocalStateContext);
 
 
     const handleDrag = (e) => {
@@ -27,7 +36,7 @@ export default function Dropzone() {
         setDrag(false);
 
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            // handleFiles
+            handleFiles(e.dataTransfer.files)  // handleFiles
         }
     }
 
@@ -35,17 +44,65 @@ export default function Dropzone() {
         inputRef.current.click();
     }
 
-    const handleOnChange = () => {
+    const handleOnChange = (e) => {
         e.preventDefault();
 
         if (e.target.files && e.target.files[0]) {
-            // handleFiles
+            handleFiles(e.target.files)  // handlefiles
         }
+    }
+
+    const handleFiles = (fileList) => {
+
+        const length = fileList.length;
+        let temp = [];
+
+        // Verify file constraints
+
+        for (let i = 0; i < length; i++) {
+            if (!SUPPORTED_TYPES.includes(fileList[i].type)) {
+                alert("file type not supported");
+                return;
+            }
+            else if (fileList[i].size > MAX_FILE_SIZE) {
+                alert("Size shouldn't be more than 10 Mb");
+                return;
+            }
+            temp.push(fileList[i]);
+
+        }
+        temp.forEach((file) => {
+
+            const storageRef = ref(storage, `uploads/${file.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+            uploadTask.on('state_changed', (snapshot) => {
+
+            }, (error) => {
+
+                // Handle Error
+                alert("error occurred");
+            },
+                () => {
+                    //  Handle Success
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        dispatch({
+                            type: 'ADD_FILE',
+                            payload: { name: file.name, size: file.size, contentType: file.type, downloadURL }
+                        })
+                    });
+
+
+                }
+            )
+
+        })
+
     }
 
     return (
         <DropzoneContainer onDragEnter={handleDrag}>
-            <FileInput type="file" id="file" onChange={handleOnChange} />
+            <FileInput type="file" id="file" multiple={true} accept="image/jpg, image/jpeg, image/png, image/gif, application/pdf" onChange={handleOnChange} />
             <LabelUpload ref={inputRef} htmlFor="file">
                 <Text>Drag and drop your file here or</Text>
                 <UploadButton onClick={buttonClick} type="button">Upload a file</UploadButton>

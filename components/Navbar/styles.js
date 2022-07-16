@@ -25,18 +25,26 @@ const LogoText = styled('h1')(({ theme }) => ({
     color: theme.palette.text.primary
 }))
 
-const Wrapper = styled('div')({
+const Wrapper = styled('div')(({ theme }) => ({
+    display: 'flex',
+    gap: theme.spacing(4),
 
-    // display:'flex'
-
-})
+}))
 
 const RoundedBox = styled('div')(({ theme }) => ({
     borderRadius: '50%',
     padding: '0.2rem',
     '&:hover': {
         backgroundColor: theme.palette.grey[400]
-    }
+    },
 }))
 
-export { Header, Logo, LogoText, Wrapper, RoundedBox };
+const AvatarWrapper = styled('div')(({ theme }) => ({
+    borderRadius: '50%',
+    border: `2px solid ${theme.palette.primary.main}`,
+    padding: '2px',
+    cursor: 'pointer'
+
+}))
+
+export { Header, Logo, LogoText, Wrapper, RoundedBox, AvatarWrapper };
