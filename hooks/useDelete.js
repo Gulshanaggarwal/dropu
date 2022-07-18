@@ -6,12 +6,13 @@ import { useState } from "react";
 export default function useDelete() {
 
     const [open, setOpen] = useState(false);
+    const [currentId, setCurrentId] = useState(null);
 
-    const toggle = () => {
-        console.log('hello');
+    const toggle = (id) => {
         setOpen(!open)
+        setCurrentId(id);
     }
 
-    return { open, toggle }
+    return { open, currentId, toggle }
 
 }

@@ -4,7 +4,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import { LocalStateContext } from '../../contexts/LocalStateContext';
 import { useContext } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,13 +12,17 @@ import useDelete from '../../hooks/useDelete';
 import DeleteDialog from '../DeleteDialog/deleteDialog';
 
 
+const style = {
+    fontWeight: 'bold'
+}
 
 
 export default function FileList() {
 
     const [state, dispatch] = useContext(LocalStateContext);
-    const { open, toggle } = useDelete();
+    const { open, currentId, toggle } = useDelete();
     const { fileList } = state;
+
 
 
     return fileList.length > 0 ? (
@@ -27,10 +30,10 @@ export default function FileList() {
             <Table aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="left">Type</TableCell>
-                        <TableCell align="left">Size</TableCell>
-                        <TableCell align="left"></TableCell>
+                        <TableCell sx={style}>Name</TableCell>
+                        <TableCell sx={style} align="left">Type</TableCell>
+                        <TableCell sx={style} align="left">Size</TableCell>
+                        <TableCell sx={style} align="left"></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -46,9 +49,9 @@ export default function FileList() {
                             <TableCell align="left">{file.size}</TableCell>
                             <TableCell align="left">
                                 <IconButton>
-                                    <DeleteIcon onClick={toggle} />
+                                    <DeleteIcon onClick={() => toggle(file.id)} />
                                 </IconButton>
-                                <DeleteDialog open={open} toggle={toggle} dialogFor="file" id={file.id} dispatch={dispatch} />
+                                {currentId === file.id && <DeleteDialog open={open} toggle={toggle} dialogFor="file" id={file.id} dispatch={dispatch} />}
                             </TableCell>
                         </TableRow>
                     ))}

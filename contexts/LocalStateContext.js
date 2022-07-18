@@ -52,9 +52,6 @@ export default function LocalStateContextProvider(props) {
 
     const [state, dispatch] = useReducer(reducer, initialState);  // useReducer Hook
 
-    console.log(state.fileList);
-
-
     return (
         <LocalStateContext.Provider value={[state, dispatch]}>
             {

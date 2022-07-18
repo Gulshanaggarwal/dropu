@@ -8,6 +8,14 @@ import { LocalStateContext } from "../../contexts/LocalStateContext";
 const SUPPORTED_TYPES = ['image/jpg', 'image/png', 'image/jpeg', 'image/gif', 'application/pdf'];
 const MAX_FILE_SIZE = 10485760   // 10 Megabytes;
 
+
+function shortenBytes(n) {
+    const k = n > 0 ? Math.floor((Math.log2(n) / 10)) : 0;
+    const rank = (k > 0 ? 'KMGT'[k - 1] : '') + 'B';
+    const count = Math.floor(n / Math.pow(1024, k));
+    return count + " " + rank;
+}
+
 export default function Dropzone() {
 
     const [isDrag, setDrag] = useState(false);
@@ -88,7 +96,7 @@ export default function Dropzone() {
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         dispatch({
                             type: 'ADD_FILE',
-                            payload: { name: file.name, size: file.size, contentType: file.type, downloadURL }
+                            payload: { name: file.name, size: shortenBytes(file.size), contentType: file.type, downloadURL, id: nanoid(10) }
                         })
                     });
 
