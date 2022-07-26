@@ -6,7 +6,7 @@ const LinkGenerateModalContainer = styled('div')(({ theme }) => ({
 
     background: theme.palette.background.paper,
     position: 'absolute',
-    top: '30%',
+    top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '40%',
@@ -37,19 +37,18 @@ const ContainerMain = styled('div')(({ theme }) => ({
 
 const ContainerItem = styled('div')(({ theme }) => ({
 
-    margin: `${theme.spacing(2)} 0`
+    margin: `${theme.spacing(2)} 0`,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(1.5)
 }))
 
 const ItemLabel = styled('label')(({ theme }) => ({
 
     color: theme.palette.text.primary,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
 }))
 
-const Item = styled('div')(({ theme }) => ({
-
-    padding: `${theme.spacing(1)} 0`
-}))
 
 const SecurityButton = styled('div')(({ theme }) => ({
 
@@ -66,4 +65,19 @@ const ButtonTitle = styled('span')(({ theme }) => ({
     color: theme.palette.text.primary,
     fontWeight: 'bold',
 }))
-export { LinkGenerateModalContainer, ContainerHeader, ContainerItem, ContainerMain, ContainerTitle, ItemLabel, Item, SecurityButton, ButtonTitle }
+
+
+const GenerateButton = styled('button')(({ theme }) => ({
+    fontWeight: 'bold',
+    color: theme.palette.common.white,
+    background: theme.palette.primary.main,
+    borderRadius: '4px',
+    padding: `${theme.spacing(1.5)} 0`,
+    border: 'none',
+    width: '100%',
+    cursor: 'pointer',
+    '&:hover': {
+        backgroundColor: theme.palette.primary.dark
+    }
+}))
+export { LinkGenerateModalContainer, ContainerHeader, ContainerItem, ContainerMain, ContainerTitle, ItemLabel, SecurityButton, ButtonTitle, GenerateButton }

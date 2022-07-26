@@ -6,24 +6,28 @@ import { lightTheme, darkTheme } from '../theme';
 import Footer from '../components/Footer/footer';
 import { SessionProvider } from "next-auth/react"
 import LocalStateContextProvider from '../contexts/LocalStateContext';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
   const [mode, setMode] = useState('light');
-
-
+  const queryClient = new QueryClient();
 
 
   return (
-    <SessionProvider session={session}>
-      <ThemeProvider theme={mode === 'light' ? lightTheme : darkTheme}>
-        <LocalStateContextProvider>
-          <Navbar mode={mode} setMode={setMode} />
-          <Component {...pageProps} />
-          <Footer />
-        </LocalStateContextProvider>
-      </ThemeProvider>
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider session={session}>
+        <ThemeProvider theme={mode === 'light' ? lightTheme : darkTheme}>
+          <LocalStateContextProvider>
+            <Navbar mode={mode} setMode={setMode} />
+            <Component {...pageProps} />
+            <Footer />
+          </LocalStateContextProvider>
+        </ThemeProvider>
+      </SessionProvider>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   )
 }
 

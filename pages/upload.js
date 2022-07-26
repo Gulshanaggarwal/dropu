@@ -25,7 +25,7 @@ export default function Upload() {
                     <ShareButton length={length} onClick={handleButtonClick}>
                         Share
                     </ShareButton>
-                    <LinkCreateModal open={isLinkCreateModal} setLinkCreateModal={setLinkCreateModal} />
+                    <LinkCreateModal open={isLinkCreateModal} setLinkCreateModal={setLinkCreateModal} fileList={state.fileList} />
                 </div>
                 <Dropzone />
                 <FileList />
